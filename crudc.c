@@ -24,7 +24,7 @@ typedef struct linkedList LinkedList;
 void find(LinkedList*);
 void addManager(LinkedList*);
 void update(LinkedList*);
-int supr(LinkedList*, Item*);
+void supr(LinkedList*);
 void freeList(LinkedList*);
 
 int main()
@@ -37,7 +37,7 @@ int main()
         printf("Select 1 to find a product\n");
         printf("Select 2 to add a product\n");
         printf("Select 3 to update a product information\n");
-        printf("Select 4 to find delete a product\n");
+        printf("Select 4 to delete a product\n");
         printf("Select 5 to exit \n");
         scanf("%d", &choice);
 
@@ -52,6 +52,7 @@ int main()
                 update(&miLista);
                 break;
             case 4:
+                supr(&miLista);
                 break;
         }
     }
@@ -128,6 +129,32 @@ void update(LinkedList *miLista){
         current = current->next;
     }
     fueEncontrado ? printf("\nChanged correctly") : printf("Product not found");
+    free(current);
+}
+
+void supr(LinkedList *miLista){
+    if(miLista->head == NULL){
+        return;
+    }
+
+    int searchedId;
+    printf("\nIntroduce the ID of the Item you want to delete\n");
+    scanf("%d", &searchedId);
+    Node* current = (Node*)malloc(sizeof(Node));
+    current = miLista->head;
+    if(miLista->head->data.id == searchedId){
+        miLista->head = miLista->head->next;
+        return;
+    }
+
+    while (current->next != NULL){
+        if(current->next->data.id == searchedId){
+            current->next = current->next->next;
+            free(current->next);
+            return;
+        }
+        current = current->next;
+    }
     free(current);
 }
 
