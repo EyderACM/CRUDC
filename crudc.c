@@ -26,6 +26,7 @@ void addManager(LinkedList*);
 void update(LinkedList*);
 void supr(LinkedList*);
 void freeList(LinkedList*);
+void printMainMenu(int *choice, LinkedList*);
 
 int main()
 {
@@ -33,28 +34,7 @@ int main()
     LinkedList miLista;
     miLista.head = NULL;
     while(choice != 5){
-        printf("\nWelcome to the product manager\n");
-        printf("Select 1 to find a product\n");
-        printf("Select 2 to add a product\n");
-        printf("Select 3 to update a product information\n");
-        printf("Select 4 to delete a product\n");
-        printf("Select 5 to exit \n");
-        scanf("%d", &choice);
-
-        switch(choice){
-            case 1:
-                find(&miLista);
-                break;
-            case 2:
-                addManager(&miLista);
-                break;
-            case 3:
-                update(&miLista);
-                break;
-            case 4:
-                supr(&miLista);
-                break;
-        }
+       printMainMenu(&choice, &miLista);
     }
     freeList(&miLista);
 }
@@ -81,7 +61,7 @@ void addManager(LinkedList *miLista){
     }
     if(doneCorrectly == 0){
         Node* current;
-        printf("We got here");
+        printf("We got here\n");
         current = miLista->head;
         while(current->next != NULL){
             current = current->next;
@@ -106,7 +86,7 @@ void find(LinkedList *miLista){
         }
         current = current->next;
     }
-    fueEncontrado ? printf("\nThe price of the product is: %d\nThe quantity is %d\n", precio, cantidad) : printf("Product not found");
+    fueEncontrado ? printf("\nThe price of the product is: %d\nThe quantity is %d\n", precio, cantidad) : printf("Product not found\n");
     free(current);
 }
 
@@ -128,7 +108,7 @@ void update(LinkedList *miLista){
         }
         current = current->next;
     }
-    fueEncontrado ? printf("\nChanged correctly") : printf("Product not found");
+    fueEncontrado ? printf("\nChanged correctly\n") : printf("Product not found\n");
     free(current);
 }
 
@@ -165,4 +145,32 @@ void freeList(LinkedList *miLista){
         miLista->head = miLista->head->next;
         free(temp);
     }
+}
+
+void printMainMenu(int *choice, LinkedList *miLista){
+    int dummy = 0;
+        printf("**********************************************");
+        printf("\n*  Welcome to the product manager            *\n");
+        printf("*  Select 1 to find a product                *\n");
+        printf("*  Select 2 to add a product                 *\n");
+        printf("*  Select 3 to update a product information  *\n");
+        printf("*  Select 4 to delete a product              *\n");
+        printf("*  Select 5 to exit                          *\n");
+        printf("**********************************************\n");
+        scanf("%d", choice);
+        dummy = *choice;
+        switch(dummy){
+            case 1:
+                find(miLista);
+                break;
+            case 2:
+                addManager(miLista);
+                break;
+            case 3:
+                update(miLista);
+                break;
+            case 4:
+                supr(miLista);
+                break;
+        }
 }
