@@ -15,6 +15,8 @@ void delete();
 void stack_count();
 void destroy();
 void update();
+void search();
+int st_count();
 
 int main(){
 
@@ -26,7 +28,9 @@ int main(){
         printf("2. Delete an element \n");
         printf("3. Count/display elements present in stack \n");
         printf("4. Empty and destroy stack \n");
-        printf("5. Exit \n");
+        printf("5. Search ID \n");
+        printf("6. Update \n");
+        printf("7. Exit \n");
         printf("Enter your choice \n");
         scanf("%d",&choice);
         switch (choice)
@@ -44,7 +48,14 @@ int main(){
                 destroy();
                 break;
             case 5:
+                search();
+                break;
+            case 6:
+                update();
+                break;
+            case 7:
                 exit(0);
+
             default:
                 printf("wrong choice\n");
         }
@@ -123,5 +134,61 @@ void destroy(){
         temp = temp->link;
     }
     printf("stack destroyed\n");
+
+}
+
+void search(){
+    int target, targetFound;
+    printf("\nEnter the ID of the product:\n");
+    scanf("%d",&target);
+    struct node *temp;
+    if (top == NULL){
+        printf("**Stack is empty**\n");
+        targetFound = 0;
+    }
+    else
+    {
+        temp = top;
+        while(temp!=NULL){
+        if(temp->data == target){
+            printf("ID:%d\n", temp->data);
+            printf("Cuantity:%d\n", temp->numberProducts);
+            printf("Price:%d\n", temp->price);
+            break;
+            }
+        temp = temp->link;
+        }
+        free(temp);
+}
+}
+
+void update(){
+ int id, cost, nProducts, target;
+ struct node *temp;
+ printf("\nEnter the ID of the product:\n");
+    scanf("%d",&target);
+    if (top == NULL){
+        printf("**Stack is empty**\n");
+    }
+    else
+    {
+        temp = top;
+        while(temp!=NULL){
+        if(temp->data == target){
+             printf("\nEnter the ID of the product:\n");
+ scanf("%d",&id);
+ printf("\nEnter the number of products:\n");
+ scanf("%d",&nProducts);
+ printf("\nEnter the cost of the product:\n");
+ scanf("%d",&cost);
+ temp->data = id;
+ temp->numberProducts = nProducts;
+ temp->price = cost;
+            break;
+            }
+        temp = temp->link;
+        }
+        free(temp);
+}
 
 }
