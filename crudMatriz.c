@@ -15,7 +15,6 @@ int addItem(Item** array, int counter, int maxSize);
 int searchID(Item** array, int maxSize);
 void update(Item** array, int maxSize);
 int erase(Item** array, int counter, int maxSize);
-=======
 
 int main(){
 
