@@ -9,6 +9,7 @@ struct item{
 
 typedef struct item Item;
 
+Item** inicialize(Item **array, int size);
 Item* createItem();
 int addItem(Item** array, int counter, int maxSize);
 int searchID(Item** array, int maxSize);
@@ -21,9 +22,10 @@ int main(){
     int counter = 0;
     int maxSize = 0;
     int flagSuccesAdd = 0;
+    Item** array = NULL;
     printf("Welcome, please type the size of the list:\n");
     scanf("%d",&maxSize);
-    Item *array[maxSize];
+    array = inicialize(array,maxSize);
     while (1){
         printf("Welcome to the product manager\n");
         printf("1. Create an element \n");
@@ -71,6 +73,11 @@ int main(){
                 printf("wrong choice\n");
         }
     }
+}
+
+Item** inicialize(Item **array, int size){
+	array = (Item**)malloc(sizeof(Item**)*size);
+	return array;
 }
 
 Item* createItem(){
