@@ -11,9 +11,12 @@ typedef struct item Item;
 
 Item* createItem();
 int addItem(Item** array, int counter, int maxSize);
+
 int searchID(Item** array, int maxSize);
 void update(Item** array, int maxSize);
 int erase(Item** array, int counter, int maxSize);
+=======
+
 int main(){
 
     int choice;
@@ -60,6 +63,10 @@ int main(){
             if(flagSuccesAdd == 1){
                 counter = counter - 1;
             }
+                break;
+            case 3:
+                break;
+            case 4:
                 break;
             case 5:
                 break;
@@ -163,3 +170,16 @@ int erase(Item** array, int counter, int maxSize){
     }
     return flag;
 }
+
+}
+
+int addItem(Item** array, int counter, int maxSize){
+int flag = 0;
+if(counter < maxSize){
+    Item* element = createItem();
+    *(array+counter) = element;
+    flag = 1;
+}
+return flag;
+}
+
