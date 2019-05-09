@@ -12,6 +12,11 @@ typedef struct item Item;
 Item* createItem();
 int addItem(Item** array, int counter, int maxSize);
 
+int searchID(Item** array, int maxSize);
+void update(Item** array, int maxSize);
+int erase(Item** array, int counter, int maxSize);
+=======
+
 int main(){
 
     int choice;
@@ -48,6 +53,16 @@ int main(){
             }
                 break;
             case 2:
+            update(array,maxSize);
+                break;
+            case 3:
+            searchID(array,maxSize);
+                break;
+            case 4:
+            flagSuccesAdd = erase(array,counter,maxSize);
+            if(flagSuccesAdd == 1){
+                counter = counter - 1;
+            }
                 break;
             case 3:
                 break;
@@ -81,6 +96,81 @@ Item* createItem(){
     element->price = cost;
     element->cuantity = nProducts;
     return element;
+}
+
+int addItem(Item** array, int counter, int maxSize){
+    int flag = 0;
+    if(counter < maxSize){
+        Item* element = createItem();
+        *(array+counter) = element;
+        flag = 1;
+    }
+    return flag;
+}
+
+int searchID(Item** array, int maxSize){
+    int counter = 0;
+    int target = 0;
+    printf("Enter the ID of the target product:\n");
+    scanf("%d",&target);
+    while(counter!=maxSize){
+        if((*(array+counter))->ID == target){
+            printf("\nFound:\n");
+            printf("ID: %d\n", array[counter]->ID);
+            printf("Cuantity: %d\n", array[counter]->cuantity);
+            printf("Price: %f\n\n", array[counter]->price);
+            break;
+        }
+    counter = counter + 1;
+    }
+    if(counter == maxSize){
+        printf("\nSorry, that ID is not correct.\n");
+        counter = -1;
+    }
+    return counter;
+}
+
+void update(Item** array, int maxSize){
+    int id;
+    int nProducts;
+    float cost;
+    int target = searchID(array,maxSize);
+    if(target!=-1){
+        printf("Enter the new ID of the product:\n");
+        scanf("%d",&id);
+        printf("Enter the new number of products:\n");
+        scanf("%d",&nProducts);
+        printf("Enter the new cost of the product:\n");
+        scanf("%f",&cost);
+        (*(array+target))->ID = id;
+        (*(array+target))->price = cost;
+        (*(array+target))->cuantity = nProducts;
+        printf("\nNew Information:\n");
+        printf("ID: %d\n", array[target]->ID);
+        printf("Cuantity: %d\n", array[target]->cuantity);
+        printf("Price: %f\n\n", array[target]->price);
+    }
+}
+int erase(Item** array, int counter, int maxSize){
+    int flag = 0;
+    int target = searchID(array,maxSize);
+    if(target!=-1){
+        free(*(array+target));
+        printf("The item has been erased.\n");
+        if(target!=maxSize-1){
+            while(target!=counter){
+                (*(array+target))->ID = (*(array+target+1))->ID;
+                (*(array+target))->cuantity = (*(array+target+1))->cuantity;
+                (*(array+target))->price = (*(array+target+1))->price;
+                target = target + 1;
+            }
+            free(*(array+target));
+        }
+        flag = 1;
+    }
+    return flag;
+}
+
 }
 
 int addItem(Item** array, int counter, int maxSize){
