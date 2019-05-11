@@ -24,6 +24,8 @@ void update(ArrayList content);
 int erase(ArrayList content);
 int compareTo(Item *firstItem, Item *secondItem);
 int swap(Item *itemOne, Item *itemTwo);
+void heapsort(ArrayList content);
+void heapify(ArrayList content, int root);
 
 int main(){
 
@@ -37,6 +39,7 @@ int main(){
     scanf("%d",&content.maxSize);
     content.array = inicialize(content);
 
+    /*
     Item *item1 = (Item*)malloc(sizeof(Item));
     item1->ID = 1;
     item1->price = 1;
@@ -51,6 +54,7 @@ int main(){
     printf("\n\nAfter swap\n");
     printf("\nItem 1 \nID = %d\nPrice = %f\nQuantity = %d\n", item1->ID, item1->price, item1->quantity);
     printf("\nItem 2 \nID = %d\nPrice = %f\nQuantity = %d\n", item2->ID, item2->price, item2->quantity);
+    */
 
     while (1){
         printf("Welcome to the product manager\n");
@@ -217,3 +221,32 @@ int swap(Item *itemOne, Item *itemTwo){
     }
     return flag;
 }
+
+void heapsort(ArrayList content){
+    for(int i = content.counter / 2 - 1; i >= 0; i--){
+        heapify(content, i);
+    }
+    for(int i = content.counter - 1; i >= 0; i--){
+        swap(content.array[0], content.array[i]);
+        heapify(content, 0);
+    }
+}
+
+void heapify(ArrayList content, int root){
+    int largest = root;
+    int left = 2*root + 1;
+    int right = 2*root + 2;
+    if(left < content.counter && content.array[left] > content.array[largest]){
+        largest = left;
+    }
+    if(right < content.counter && content.array[right] > content.array[largest]){
+        largest = right;
+    }
+
+    if(largest != root){
+        swap(content.array[root], content.array[largest]);
+        heapify(content, largest);
+    }
+}
+
+
