@@ -26,6 +26,7 @@ int compareTo(Item *firstItem, Item *secondItem);
 int swap(Item *itemOne, Item *itemTwo);
 void heapsort(ArrayList content);
 void heapify(ArrayList content, int root);
+void printAll(ArrayList content);
 
 int main(){
 
@@ -62,8 +63,8 @@ int main(){
         printf("2. Update an element \n");
         printf("3. Search an element \n");
         printf("4. Delete an element \n");
-        printf("5. --- \n");
-        printf("6. --- \n");
+        printf("5. Sort elements by ID\n");
+        printf("6. Print all elements in the list \n");
         printf("7. Exit \n");
         printf("Enter your choice \n");
         scanf("%d",&choice);
@@ -94,8 +95,11 @@ int main(){
             }
                 break;
             case 5:
+            heapsort(content);
+            printf("\nSort Completed!\n\n");
                 break;
             case 6:
+            printAll(content);
                 break;
             case 7:
                 exit(0);
@@ -143,7 +147,7 @@ int searchID(ArrayList content){
     int target = 0;
     printf("Enter the ID of the target product:\n");
     scanf("%d",&target);
-    while(content.counter < content.maxSize){
+    while(counter < content.maxSize){
         if(content.array[counter]->ID == target){
             printf("\nFound:\n");
             printf("ID: %d\n", content.array[counter]->ID);
@@ -153,7 +157,7 @@ int searchID(ArrayList content){
         }
     counter = counter + 1;
     }
-    if(content.counter == content.maxSize){
+    if(counter == content.maxSize){
         printf("\nSorry, that ID is not correct.\n");
         counter = -1;
     }
@@ -187,11 +191,11 @@ int erase(ArrayList content){
     if(target!=-1){
         free(*(content.array+target));
         printf("The item has been erased.\n");
-        if(target!=content.maxSize-1){
+        if(target < content.maxSize-1){
             while(target!=content.counter){
-                (*(content.array+target))->ID = (*(content.array+target+1))->ID;
-                (*(content.array+target))->quantity = (*(content.array+target+1))->quantity;
-                (*(content.array+target))->price = (*(content.array+target+1))->price;
+                content.array[target]->ID = content.array[target+1]->ID;
+                content.array[target]->quantity = content.array[target+1]->quantity;
+                content.array[target]->price = content.array[target+1]->price;
                 target = target + 1;
             }
             free(*(content.array+target));
@@ -233,19 +237,28 @@ void heapsort(ArrayList content){
 }
 
 void heapify(ArrayList content, int root){
-    int largest = root;
+    int smallest = root;
     int left = 2*root + 1;
     int right = 2*root + 2;
-    if(left < content.counter && content.array[left] > content.array[largest]){
-        largest = left;
+    if(left < content.counter && content.array[left]->ID < content.array[smallest]->ID){
+        smallest = left;
     }
-    if(right < content.counter && content.array[right] > content.array[largest]){
-        largest = right;
+    if(right < content.counter && content.array[right]->ID < content.array[smallest]->ID){
+        smallest = right;
     }
 
-    if(largest != root){
-        swap(content.array[root], content.array[largest]);
-        heapify(content, largest);
+    if(smallest != root){
+        swap(content.array[root], content.array[smallest]);
+        heapify(content, smallest);
+    }
+}
+
+void printAll(ArrayList content){
+    for(int i = 0; i < content.counter; i++){
+        printf("\nItem %d", i);
+        printf("\nID = %d", content.array[i]->ID);
+        printf("\nPrice = %f", content.array[i]->price);
+        printf("\nQuantity = %d\n", content.array[i]->quantity);
     }
 }
 
