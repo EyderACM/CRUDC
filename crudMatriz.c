@@ -16,7 +16,7 @@ typedef struct {
 } ArrayList ;
 
 
-Item** inicialize(ArrayList content);
+void inicialize(ArrayList *content);
 Item* createItem();
 int addItem(ArrayList content);
 int searchID(ArrayList content);
@@ -30,33 +30,12 @@ void printAll(ArrayList content);
 
 int main(){
 
-    int choice;
     ArrayList content;
-    content.counter = 0;
-    content.maxSize = 0;
-    content.array = NULL;
+    inicialize(&content);
+    content.array = (Item**)malloc(sizeof(Item**)*content.maxSize);
+
+    int choice;
     int flagSuccesAdd = 0;
-    printf("Welcome, please type the size of the list:\n");
-    scanf("%d",&content.maxSize);
-    content.array = inicialize(content);
-
-    /*
-    Item *item1 = (Item*)malloc(sizeof(Item));
-    item1->ID = 1;
-    item1->price = 1;
-    item1->quantity = 1;
-    Item *item2 = (Item*)malloc(sizeof(Item));
-    item2->ID = 2;
-    item2->price = 2;
-    item2->quantity = 2;
-    printf("\nItem 1 \nID = %d\nPrice = %f\nQuantity = %d\n", item1->ID, item1->price, item1->quantity);
-    printf("\nItem 2 \nID = %d\nPrice = %f\nQuantity = %d\n", item2->ID, item2->price, item2->quantity);
-    swap(item1, item2);
-    printf("\n\nAfter swap\n");
-    printf("\nItem 1 \nID = %d\nPrice = %f\nQuantity = %d\n", item1->ID, item1->price, item1->quantity);
-    printf("\nItem 2 \nID = %d\nPrice = %f\nQuantity = %d\n", item2->ID, item2->price, item2->quantity);
-    */
-
     while (1){
         printf("Welcome to the product manager\n");
         printf("1. Create an element \n");
@@ -109,9 +88,13 @@ int main(){
     }
 }
 
-Item** inicialize(ArrayList content){
-	content.array = (Item**)malloc(sizeof(Item**)*content.maxSize);
-	return content.array;
+void inicialize(ArrayList *content){
+    content->counter = 0;
+    content->maxSize = 0;
+    content->array = NULL;
+    printf("Welcome, please type the size of the list:\n");
+    scanf("%d", &content->maxSize);
+	content->array = (Item**)malloc(sizeof(Item**)*content->maxSize);
 }
 
 Item* createItem(){
@@ -126,6 +109,7 @@ Item* createItem(){
     printf("Enter the cost of the product:\n");
     scanf("%f",&cost);
     Item* element = (Item*)malloc(sizeof(Item));
+
     element->ID = id;
     element->price = cost;
     element->quantity = nProducts;
@@ -192,7 +176,7 @@ int erase(ArrayList content){
         free(*(content.array+target));
         printf("The item has been erased.\n");
         if(target < content.maxSize-1){
-            while(target!=content.counter){
+            while(target < content.counter-1){
                 content.array[target]->ID = content.array[target+1]->ID;
                 content.array[target]->quantity = content.array[target+1]->quantity;
                 content.array[target]->price = content.array[target+1]->price;
