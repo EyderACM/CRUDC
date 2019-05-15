@@ -80,7 +80,7 @@ void addManager(LinkedList *miLista){
     if(doneCorrectly == 0){
         Node* current;
         current = miLista->head;
-        while(current->next != NULL && current->next->data.id < newNode->data.id){
+        while(current->next != NULL && compareTo(newNode, current->next)){
             current = current->next;
         }
         newNode->next = current->next;
@@ -174,9 +174,9 @@ void freeList(LinkedList *miLista){
 
 int compareTo(Item *firstItem, Item *secondItem){
     int comparasion = 0;
-    if(firstItem->price > secondItem->price){
+    if(firstItem->id > secondItem->id){
         comparasion = 1;
-    }else if(firstItem->price < secondItem->price) {
+    }else if(firstItem->id < secondItem->id) {
         comparasion = -1;
     }
     return comparasion;
